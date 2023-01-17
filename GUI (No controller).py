@@ -1,39 +1,65 @@
 from tkinter import *
-def Getresult():
-
-    hotorcold = str(txthotorcold.get())
-    temper = float(txttemp.get())
-
-    if (hotorcold == 'H'):
-        lblresult.config(text="Heat Temperature: " temper, font=("Arial", 18), bg="yellow", fg="black")
-        lblresult.place(x=10, y=150)
-
-    elif (hotorcold == 'C'):
-        lblresult.config(text="Cool Temperature: " temper, font=("Arial", 18), bg="yellow", fg="black")
-        lblresult.place(x=10, y=150)
-
 
 window = Tk()
-window.geometry("250x250")
-window.title("Temperature Container Menu")
-window.config(bg="yellow")
+var = IntVar()
 
-lblhotorcold = Label(window, text="Heat/Cool: ", font=("Arial", 12), bg= "yellow", fg="black")
-lblhotorcold.place (x=10, y=30)
+lbltemp = Label(window, text="Temperature:")
+lblduration = Label(window, text="Duration of Temperature:")
+lblspeed = Label(window, text="Speed of Heating/Cooling:")
 
-lbltemp = Label(window, text="Temperature: ", font=("Arial", 12), bg= "yellow", fg="black")
-lbltemp.place (x=10, y=60)
+lbltemp.grid(row = 0, column = 0, sticky = W, pady = 2)
+lblduration.grid(row = 1, column = 0, sticky = W, pady = 2)
 
-txthotorcold = Entry (window)
-txthotorcold.place (x=91, y=33)
+txttemp = Entry(window)
+txtduration = Entry(window)
 
-txttemp = Entry (window)
-txttemp.place (x=110, y=63)
+txttemp.grid(row = 0, column = 1, sticky = W, pady = 2)
+txtduration.grid(row = 1, column = 1, sticky = W, pady = 2)
 
-btnenter = Button(window, text= "Enter", font=("Arial", 18), bg= "gray", fg="black", command=Getresult)
-btnenter.place (x=10, y=100)
+celsiusCHKBTN = Radiobutton(window, text = "Celsius", variable=var, value=1)
+celsiusCHKBTN.grid(sticky= W)
 
-lblresult = Label(window, text= "----------------", font=("Arial", 18), bg= "yellow", fg="black")
-lblresult.place (x=10, y=170)
+fahrenheitCHKBTN = Radiobutton(window, text = "Fahrenheit", variable=var, value=2)
+fahrenheitCHKBTN.grid(sticky= W)
 
+kelvinCHKBTN = Radiobutton(window, text = "Kelvin", variable=var, value=3)
+kelvinCHKBTN.grid(sticky= W)
+
+def CancelFunction():
+    cancel = "Process Canceled"
+    label.config(text=cancel)
+    nothing = "               "
+    labeltwo.config(text=nothing)
+
+def EnterFunction():
+    if celsiusCHKBTN:
+        process = "Temperature: " + txttemp.get() + " °C", "Duration: " + txtduration.get() + " minutes"
+        labeltwo.config(text=process)
+    elif fahrenheitCHKBTN:
+        process = "Temperature: " + txttemp.get() + " °F", "Duration: " + txtduration.get() + " minutes"
+        labeltwo.config(text=process)
+    elif kelvinCHKBTN:
+        process = "Temperature: " + txttemp.get() + " °K", "Duration: " + txtduration.get() + " minutes"
+        labeltwo.config(text=process)
+
+def ResetFunction():
+    txttemp.delete(0,END)
+    txtduration.delete(0,END)
+    if ResetFunction():
+        celsiusCHKBTN.set(0)
+        fahrenheitCHKBTN.set(0)
+        kelvinCHKBTN.set(0)
+
+b1 = Button(window, text = "Enter", command=EnterFunction)
+b2 = Button(window, text = "Reset", command=ResetFunction)
+b3 = Button(window, text = "Cancel", command=CancelFunction)
+
+b1.grid(row = 4, column = 2, sticky = S)
+b2.grid(row = 4, column = 3, sticky = S)
+b3.grid(row = 4, column = 4, sticky = S,)
+
+label = Label(window)
+label.grid()
+labeltwo = Label(window)
+labeltwo.grid()
 window.mainloop()
